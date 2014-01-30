@@ -20,7 +20,7 @@ gem install localhook
 
 First, you must host your own localhook server on internet. Check [localhook-server](https://github.com/siuying/localhook-server) for details.
 
-To expose a local webhook ``http://localhost:3000/webhook`` to internet:
+Then, to expose a local webhook ``http://localhost:3000/webhook`` to internet:
 
 ```
 localhook https://localhook.mydomain.com http://localhost:3000 --token=1234
@@ -39,3 +39,7 @@ forwarded to ``http://localhost:3000/webhook``.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## License
+
+MIT License.
