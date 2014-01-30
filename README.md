@@ -1,6 +1,6 @@
 # Localhook
 
-Localhook let you receive webhooks behind a firewall. It works like [UltraHook](http://www.ultrahook.com/) or [ngrok](https://ngrok.com/), but you host the server yourself.g
+Localhook let you receive webhooks behind a firewall. It works like [UltraHook](http://www.ultrahook.com/) or [ngrok](https://ngrok.com/), but you host the server yourself.
 
 ## What is Localhook?
 
