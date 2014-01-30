@@ -2,7 +2,7 @@ require_relative '../lib/localhook'
 require 'yajl'
 
 describe Localhook::WebhookForwarder do
-  context "-initialize" do
+  context "initialize" do
     it "accept valid url" do
       forwarder = Localhook::WebhookForwarder.new("http://localhost:8080")
       expect(forwarder.url).to eq("http://localhost:8080")
@@ -11,10 +11,10 @@ describe Localhook::WebhookForwarder do
       expect(forwarder.url).to eq("http://localhost:8080")
     end
     
-    it "accept options" do
+    it "merge input options with default options" do
       options = {a: 1}
       forwarder = Localhook::WebhookForwarder.new("http://localhost:8080", options)
-      expect(forwarder.http_options).to eq(options)
+      expect(forwarder.http_options).to eq(Localhook::WebhookForwarder::DEFAULT_OPTIONS.merge(options))
     end
 
     it "raise exception for invalid url" do
@@ -24,14 +24,15 @@ describe Localhook::WebhookForwarder do
     end
   end
 
-  context "-post" do
+  context "post" do
     subject { Localhook::WebhookForwarder.new("http://localhost:8080") }
     it "forward request to remote server via em" do
-      params = {head: {}, path: "/a/b", query: "", body: ""}
-
-      mock_em = double(:mock_em)
-      expect(mock_em).to receive(:post).with(params)
-      expect(EventMachine::HttpRequest).to receive(:new).with(subject.url, subject.http_options).and_return(mock_em)
+      params  = {head: {}, path: "/a/b", query: "", body: ""}
+      request = double(:request)
+      expect(request).to receive(:post).with(params).and_return(request)
+      expect(request).to receive(:callback)
+      expect(request).to receive(:errback)
+      expect(EventMachine::HttpRequest).to receive(:new).with(subject.url, subject.http_options).and_return(request)
       subject.post("/a/b", "", {}, "")
     end
   end

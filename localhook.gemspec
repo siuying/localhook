@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Localhook::VERSION
   spec.authors       = ["Francis Chong"]
   spec.email         = ["francis@ignition.hk"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Localhook let you receive webhooks on localhost.}
+  spec.description   = %q{Localhook makes it super easy to connect public webhook endpoints with development environments.}
   spec.homepage      = ""
   spec.license       = "MIT"
 

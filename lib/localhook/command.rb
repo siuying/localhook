@@ -7,7 +7,9 @@ require_relative './webhook_forwarder'
 module Localhook
   class Command < ::CLAide::Command
     attr_reader :remote_server, :local_server
-    self.description = "Listen a webhook locally via Localhook service."
+    self.command = 'localhook'
+    self.description = "Localhook let you receive webhooks on localhost."
+    self.arguments   = "<remote-server> <local-server>"
 
     def initialize(argv)
       @remote_server = argv.shift_argument
@@ -22,15 +24,22 @@ module Localhook
     end
 
     def validate!
-      if @remote_server.nil? || @local_server.nil?
-        help! "usage: localhook <remote-server> <local-server>"
+      if @remote_server.nil?
+        help! "missing remote-server parameter"
+      end
+      if @local_server.nil?
+        help! "missing local-server parameter"
       end
     end
 
     def run
       EventMachine.run do
-        @forwarder  = WebhookForwarder.new(@remote_server)
-        @source     = Localhook::EventSource.new(@local_server, forwarder)
+        puts "forward remote server (#{@remote_server}) webhooks to #{@local_server}"
+        @forwarder  = WebhookForwarder.new(@local_server)
+        @source     = EventSource.new(@remote_server, @forwarder)
+        @source.error do |error|
+          puts "error connecting to eventsource: #{error}"
+        end
         @source.start
       end
     end

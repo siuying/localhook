@@ -8,6 +8,7 @@ module Localhook
     attr_reader :http_options
 
     VALID_URL = %r{^(https?://[^/]+)/?$}
+    DEFAULT_OPTIONS = {:connect_timeout => 5}
 
     # Create a WebhookForwarder
     # url - the base url of the destination webhook
@@ -18,7 +19,7 @@ module Localhook
       end
 
       @url = url.match(VALID_URL)[1]
-      @http_options = http_options
+      @http_options = DEFAULT_OPTIONS.merge(http_options)
     end
 
     # path - string, the path of the request
@@ -26,7 +27,9 @@ module Localhook
     # headers - Hash, the header of the request
     # body - String, the body of the request
     def post(path, query, headers, body)
-      EventMachine::HttpRequest.new(url, http_options).post :head => headers, :path => path, :query => query, :body => body
+      http = EventMachine::HttpRequest.new(url, http_options).post :head => headers, :path => path, :query => query, :body => body
+      http.callback { puts "forward url -> #{url}" }
+      http.errback { puts "ERROR: failed forward to url #{url}" }
     end
   end
 end

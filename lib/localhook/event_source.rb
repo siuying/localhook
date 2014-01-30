@@ -5,8 +5,15 @@ module Localhook
   class EventSource < ::EventMachine::EventSource
     attr_reader :forwarder
 
-    def initialize(url, forwarder)
-      super(url)
+    VALID_URL = %r{^(https?://[^/]+)/?$}
+
+    def initialize(base_url, forwarder)
+      unless base_url =~ VALID_URL
+        raise ArgumentError, "Invalid base_url \"#{base_url}\", it should be in format: (https|http)://<host>(:<port>)?/?"
+      end
+
+      base_url = base_url.match(VALID_URL)[1]
+      super("#{base_url}/_localhook")
 
       @forwarder = forwarder
 
