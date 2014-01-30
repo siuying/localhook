@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["francis@ignition.hk"]
   spec.summary       = %q{Localhook let you receive webhooks on localhost.}
   spec.description   = %q{Localhook makes it super easy to connect public webhook endpoints with development environments.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/siuying/localhook"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
