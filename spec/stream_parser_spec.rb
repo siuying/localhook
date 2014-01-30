@@ -2,11 +2,11 @@ require_relative '../lib/localhook'
 require 'yajl'
 
 describe Localhook::StreamParser do
-  context "-handle_line" do
+  context "-parse_line" do
     it "call on_id with the id" do
       id = "hello"
       subject.should_receive(:on_id).with(id)
-      subject.handle_line("id: #{id}")
+      subject.parse_line("id: #{id}")
     end
 
     it "call on_data with the parsed json message" do
@@ -14,7 +14,7 @@ describe Localhook::StreamParser do
       message_json = Yajl::Encoder.encode(message)
 
       subject.should_receive(:on_data).with(message)
-      subject.handle_line("data: #{message_json}")
+      subject.parse_line("data: #{message_json}")
     end
   end
 end

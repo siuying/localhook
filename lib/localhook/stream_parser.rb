@@ -8,7 +8,7 @@ module Localhook
       @parser = Yajl::Parser.new
     end
 
-    def handle_line(line)
+    def parse_line(line)
       match = line.match(/^([a-zA-Z]+):[ \t]*(.+)/)
       if match
         name = match[1]
@@ -23,10 +23,12 @@ module Localhook
       end
     end
 
-    def on_data
+    def on_data(data)
+      puts "data #{data}"
     end
 
-    def on_id
+    def on_id(id)
+      puts "id #{id}"
     end
   end
 end 
