@@ -10,6 +10,8 @@ module Localhook
     VALID_URL = %r{^(https?://[^/]+)/?$}
 
     # Create a WebhookForwarder
+    # url - the base url of the destination webhook
+    # http_options - the http options passed to em
     def initialize(url, http_options={})
       unless url =~ VALID_URL
         raise ArgumentError, "Invalid url \"#{url}\", it should be in format: (https|http)://<host>(:<port>)?/?"

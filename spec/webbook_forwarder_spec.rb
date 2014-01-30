@@ -29,7 +29,7 @@ describe Localhook::WebhookForwarder do
     it "forward request to remote server via em" do
       params = {head: {}, path: "/a/b", query: "", body: ""}
 
-      mock_em = stub(:mock_em)
+      mock_em = double(:mock_em)
       expect(mock_em).to receive(:post).with(params)
       expect(EventMachine::HttpRequest).to receive(:new).with(subject.url, subject.http_options).and_return(mock_em)
       subject.post("/a/b", "", {}, "")

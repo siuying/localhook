@@ -18,6 +18,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "claide"
+  spec.add_dependency "em-http-request"
+  spec.add_dependency "em-eventsource"
+  spec.add_dependency "yajl-ruby"
+
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "pry"
 end
