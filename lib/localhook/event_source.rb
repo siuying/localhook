@@ -10,14 +10,16 @@ module Localhook
       super(url)
 
       @forwarder = forwarder
+
       @parser = Yajl::Parser.new(:symbolize_keys => true)
+      @parser.on_parse_complete = method(:data_parsed)
+
       self.message do |message|
-        parse_line(message)
+        parser.parse(message)
       end
     end
 
-    def parse_line(message)
-      data = parser.parse(message)
+    def data_parsed(data)
       case data[:action]
       when "post"
         # convert headers array to Hash, if needed
@@ -27,6 +29,8 @@ module Localhook
         query = data[:query_string]
         body = data[:body]
         forwarder.post(path, query, headers, body)
+      else
+        raise "unknown action '#{data[:action]}' (#{data}"
       end
     end
   end

@@ -5,17 +5,17 @@ describe Localhook::EventSource do
   let(:forwarder) { double(:forwarder) }
   subject { Localhook::EventSource.new("http://www.google.com", forwarder) }
 
-  context "-parse_line" do
+  context "-data_parsed" do
     it "call forwarder.post() when parsed action 'post'" do
-      message = {"action" => "post", 
-        "query_string" => "a=1", 
-        "path" => "/a/b", 
-        "body" => "{}", 
-        "headers" => [["User-Agent", "rspec"]]
+      message = {:action => "post", 
+        :query_string => "a=1", 
+        :path => "/a/b", 
+        :body => "{}", 
+        :headers => [["User-Agent", "rspec"]]
       }
-      message_json = Yajl::Encoder.encode(message)
+
       expect(forwarder).to receive(:post).with("/a/b", "a=1", {"User-Agent" => "rspec"}, "{}")
-      subject.parse_line(message_json)
+      subject.data_parsed(message)
     end
   end
 end
