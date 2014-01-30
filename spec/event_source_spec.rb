@@ -3,18 +3,18 @@ require 'yajl'
 
 describe Localhook::EventSource do  
   context "-initialize" do
-    it "set url via base_url parameter" do
-      forwarder = Localhook::EventSource.new("http://localhost:8080", double(:forwarder))
-      expect(forwarder.url).to eq("http://localhost:8080/_localhook")
+    it "set url via base_url and token parameter" do
+      forwarder = Localhook::EventSource.new("http://localhost:8080", double(:forwarder), "t")
+      expect(forwarder.url).to eq("http://localhost:8080/_localhook?token=t")
 
-      forwarder = Localhook::EventSource.new("http://localhost:8080/", double(:forwarder))
-      expect(forwarder.url).to eq("http://localhost:8080/_localhook")
+      forwarder = Localhook::EventSource.new("http://localhost:8080/", double(:forwarder), "t")
+      expect(forwarder.url).to eq("http://localhost:8080/_localhook?token=t")
     end
   end
 
   context "-data_parsed" do
     let(:forwarder) { double(:forwarder) }
-    subject { Localhook::EventSource.new("http://www.google.com", forwarder) }
+    subject { Localhook::EventSource.new("http://www.google.com", forwarder, "1") }
 
     it "call forwarder.post() when parsed action 'post'" do
       message = {:action => "post", 

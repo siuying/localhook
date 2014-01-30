@@ -4,23 +4,33 @@ require 'yajl'
 module Localhook
   class EventSource < ::EventMachine::EventSource
     attr_reader :forwarder
+    attr_reader :endpoint
 
     VALID_URL = %r{^(https?://[^/]+)/?$}
 
-    def initialize(base_url, forwarder)
+    def initialize(base_url, forwarder, token)
       unless base_url =~ VALID_URL
         raise ArgumentError, "Invalid base_url \"#{base_url}\", it should be in format: (https|http)://<host>(:<port>)?/?"
       end
 
       base_url = base_url.match(VALID_URL)[1]
-      super("#{base_url}/_localhook")
+      super("#{base_url}/_localhook?token=#{token}")
 
       @forwarder = forwarder
 
       @parser = Yajl::Parser.new(:symbolize_keys => true)
       @parser.on_parse_complete = method(:data_parsed)
-      self.message do |message|
+      self.on "webhook" do |message|
         @parser.parse(message)
+      end
+      self.on "endpoint" do |message|
+        @endpoint = message
+        puts "Connected to endpoint: #{message}"
+      end
+      self.on "error" do |error|
+        puts "Error: #{error}"
+        self.close
+        raise "Server response with an error: #{error}"
       end
 
       # never timeout
