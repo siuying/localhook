@@ -1,5 +1,7 @@
 require "localhook/version"
 
 module Localhook
-  # Your code goes here...
+
 end
+
+require_relative './localhook/stream_parser'
