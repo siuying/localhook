@@ -1,8 +1,8 @@
 # Localhook
 
-Localhook let you receive webhooks behind a firewall. It works like [UltraHook](http://www.ultrahook.com/) or [ngrok](https://ngrok.com/), but you host the server yourself.
+Localhook let you receive webhooks behind a firewall. It works like [UltraHook](http://www.ultrahook.com/) or [ngrok](https://ngrok.com/), but you host the server yourself.g
 
-## Why use Localhook?
+## What is Localhook?
 
 A WebHook is an HTTP callback: an HTTP POST that occurs when something happens. Many popular services (GitHub, Stripe, ActiveCampaign, Papertrail, etc) support updates via webhooks. However, since these webhook requests are made over Internet, it's difficult receive them when testing from behind a firewall.
 
@@ -33,7 +33,7 @@ localhook https://localhook.mydomain.com http://localhost:3000 --token=1234
 ```
 
 Instead of giving third party url "http://localhost:3000/webhook", you give them
-``https://localhook.mydomain.com/endpoint1/webhook```.
+``https://localhook.mydomain.com/endpoint1/webhook``.
 
 Any POST request sent to ``https://localhook.mydomain.com/endpoint1/webhook`` will be
 forwarded to ``http://localhost:3000/webhook``.
