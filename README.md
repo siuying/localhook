@@ -2,7 +2,7 @@
 
 Localhook let you receive webhooks behind a firewall. It works like [UltraHook](http://www.ultrahook.com/) or [ngrok](https://ngrok.com/), but you host the server yourself.
 
-## What is Localhook?
+## Why use Localhook?
 
 A WebHook is an HTTP callback: an HTTP POST that occurs when something happens. Many popular services (GitHub, Stripe, ActiveCampaign, Papertrail, etc) support updates via webhooks. However, since these webhook requests are made over Internet, it's difficult receive them when testing from behind a firewall.
 
